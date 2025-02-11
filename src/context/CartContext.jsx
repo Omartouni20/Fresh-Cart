@@ -1,144 +1,154 @@
 import axios from "axios";
-import { createContext, useContext, useState } from "react" 
+import { createContext, useContext, useState, useEffect } from "react";
 import { authContext } from './Authcontext';
-import { useEffect } from "react";
-
 
 export const cartContect = createContext();
-export default function CartContextProvider( {children} ) {
-const { userToken } = useContext(authContext)
 
+export default function CartContextProvider({ children }) {
+  const { userToken } = useContext(authContext);
 
-const [numberOfCartItems, setnumberOfCartItems] = useState(0) ;
-const [products, setproducts] = useState(null) ;
-const [totalCartPrice, settotalCartPrice] = useState(0) ;
-const [cartMessage, setcartMessage] = useState('') ;
+  const [numberOfCartItems, setnumberOfCartItems] = useState(0);
+  const [products, setproducts] = useState([]); 
+  const [totalCartPrice, settotalCartPrice] = useState(0);
+  const [cartId, setcartId] = useState(null);
+  const [cartCleared, setCartCleared] = useState(false); 
 
-
- async function addProductToCart ( id ) {
-
-  const res = await axios.post('https://ecommerce.routemisr.com/api/v1/cart' ,
-   {
-      productId : id ,
-    } , 
-  {
-   headers : {
-    token : userToken ,
-   } 
-  })
-  .then ( function ( res ) {
-//    console.log("Res =====>" , res.data);
-//    console.log("message ==>" , res.data.message);
-//    console.log("numOfCartItems ==>" , res.data.numOfCartItems);
-//    console.log("products==>" , res.data.data.products);
-//    console.log("totalCartPrice==>" , res.data.data.totalCartPrice);
-//
-//    setnumberOfCartItems(res.data.numOfCartItems);
-//    setproducts(res.data.data.products);
-//    settotalCartPrice(res.data.data.totalCartPrice);
-//    setcartMessage(res.data.message) ;
-getUserCart() ;
-
-    return true;
-    
-  } ) 
-  .catch ( function ( err ) {
-    //console.log("Error" , err);
-    
-    return false;
-  } )
-
-
-
-  return res ;
-  } 
-
-
-  function getUserCart () {
-    axios.get('https://ecommerce.routemisr.com/api/v1/cart' , { 
-      headers : {
-        token : userToken ,
+  // Add product to cart
+  async function addProductToCart(id) {
+    try {
+      console.log("Adding product to cart, productId:", id);  
+      const res = await axios.post(
+        'https://ecommerce.routemisr.com/api/v1/cart',
+        { productId: id },
+        {
+          headers: {
+            token: userToken,
+          },
+        }
+      );
+      if (res) {
+        console.log("Product added successfully:", res.data);  
+        setcartId(res.data.cartId);
+        getUserCart();
+        return true;
+      } else {
+        console.log("Failed to add product: No response data.");  
+        return false;
       }
-     })
-     .then( function ( response ) {
-      //console.log('response ==> ' , response.data);
-      //console.log('NumOfCartItems ==> ' , response.data.numOfCartItems);
-      //console.log('Products ==> ' , response.data.data.products);
-      //console.log('Total Cart Price ==> ' , response.data.data.totalCartPrice);
-
-      setnumberOfCartItems(response.data.numOfCartItems);
-      setproducts(response.data.data.products);
-      settotalCartPrice(response.data.data.totalCartPrice);
-
-      
-     } )
-     .catch( function ( err ) {
-      console.log('error ==> ' , err);
-      
-     } )
+    } catch (error) {
+      console.error("Error adding product to cart:", error);  
+      return false;
+    }
   }
-  useEffect( function () {
-    if ( userToken ) {
-      getUserCart() ;
+
+  // Get user cart
+  function getUserCart() {
+    axios
+      .get('https://ecommerce.routemisr.com/api/v1/cart', {
+        headers: {
+          token: userToken,
+        },
+      })
+      .then(function (response) {
+        console.log("User cart data:", response.data);  
+        setnumberOfCartItems(response.data.numOfCartItems);
+        setproducts(response.data.data.products);
+        settotalCartPrice(response.data.data.totalCartPrice);
+        setcartId(response.data.cartId);
+      })
+      .catch(function (err) {
+        console.log('Error fetching cart:', err);  
+      });
+  }
+
+  // Update product count
+  async function updateCount(id, newCount) {
+    try {
+      const res = await axios.put(
+        `https://ecommerce.routemisr.com/api/v1/cart/${id}`,
+        { count: newCount },
+        {
+          headers: {
+            token: userToken,
+          },
+        }
+      );
+      if (res) {
+        console.log("Product count updated:", res.data); 
+        setnumberOfCartItems(res.data.numOfCartItems);
+        setproducts(res.data.data.products);
+        settotalCartPrice(res.data.data.totalCartPrice);
+        return true;
+      } else {
+        console.log("Failed to update count: No response data.");  
+        return false;
+      }
+    } catch (error) {
+      console.error("Error updating product count:", error); 
+      return false;
     }
-  } , [ userToken ] ) ;
+  }
 
-async function updateCount ( id  , newCount) {
-
-const res = await axios.put ( `https://ecommerce.routemisr.com/api/v1/cart/${id}` , {
-  count: newCount
-}
-,{
-headers : {
-  token : userToken ,
-}
-} )
-.then( function ( res ) {
-  setnumberOfCartItems(res.data.numOfCartItems);
-  setproducts(res.data.data.products);
-  settotalCartPrice(res.data.data.totalCartPrice);
-
-
-  return true ;
-} )
-.catch( function ( err ) {
-
-
-  return false ;
-} )
-
-return res ;
-}
-
-async function removeCartItem (id) {
- const res = await axios.delete (`https://ecommerce.routemisr.com/api/v1/cart/${id}` , {
-    headers : {
-      token : userToken ,
+  // Remove item from cart
+  async function removeCartItem(id) {
+    try {
+      const res = await axios.delete(`https://ecommerce.routemisr.com/api/v1/cart/${id}`, {
+        headers: {
+          token: userToken,
+        },
+      });
+      if (res) {
+        console.log("Product removed from cart:", res.data);  
+        setnumberOfCartItems(res.data.numOfCartItems);
+        setproducts(res.data.data.products);
+        settotalCartPrice(res.data.data.totalCartPrice);
+        return true;
+      } else {
+        console.log("Failed to remove product: No response data.");  
+        return false;
+      }
+    } catch (error) {
+      console.error("Error removing product from cart:", error);  
+      return false;
     }
-  })
-  .then( function ( res ) {
-    setnumberOfCartItems(res.data.numOfCartItems);
-    setproducts(res.data.data.products);
-    settotalCartPrice(res.data.data.totalCartPrice);
+  }
 
-    return true ;
-  } )
-  .catch( function ( err ) {
+  // Reset cart values (clearing the cart)
+  function resetValues() {
+    console.log("Resetting cart values");  
+    setcartId(null);
+    setproducts([]);  
+    settotalCartPrice(0);
+    setCartCleared(true); 
+  }
 
-    return false ;
-  } )
-
-return res ;
-
-} 
+  // Automatically reset cartCleared state to false when cart is refilled
+  useEffect(() => {
+    if (cartCleared) {
+      // Reset cartCleared state after resetting the cart
+      setCartCleared(false);
+      setnumberOfCartItems(0);
+      console.log("Cart cleared and reset values.");  
+    }
+  }, [cartCleared]);
 
   return (
-    <cartContect.Provider value={ { addProductToCart , cartMessage , getUserCart  , numberOfCartItems ,
-      products ,
-      totalCartPrice , updateCount, removeCartItem , } }>
-    
-    {children}
-
+    <cartContect.Provider
+      value={{
+        addProductToCart,
+        getUserCart,
+        numberOfCartItems,
+        products,
+        setproducts,
+        totalCartPrice,
+        updateCount,
+        removeCartItem,
+        cartId,
+        resetValues,
+        setnumberOfCartItems,
+      }}
+    >
+      {children}
     </cartContect.Provider>
-  )
+  );
 }

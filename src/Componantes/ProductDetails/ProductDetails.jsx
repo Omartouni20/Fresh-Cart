@@ -10,14 +10,14 @@ export default function productDetails() {
 
    const {id} =  useParams();
 
-   const { addProductToCart , cartMessage } = useContext (cartContect) ;
+   const { addProductToCart  } = useContext (cartContect) ;
 
   async function handleAddtionToCart () {
 
     const res = await addProductToCart ( id )
 
     if (res) {
-      toast.success (cartMessage , { duration : 3000 , position : "top-right" })
+      toast.success ("Product Added Successfuly" , { duration : 3000 , position : "top-right" })
       
       
     } else {

@@ -159,6 +159,9 @@ let registerFormik =  useFormik(
     
   </button>
 
+  <p className="text-sm text-gray-600">
+  <a href="/forget-password" className="text-blue-600 hover:underline">Forgot Password?</a>
+</p>
 
 
 </form>
