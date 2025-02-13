@@ -4,6 +4,7 @@ import LoaderScreen from "../LodaderScreen/LoaderScreen";
 import toast from "react-hot-toast";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import imageEmptyCart from "../../assets/images/Empty-cart.svg"
 
 export default function Cart() {
   const { products, totalCartPrice, updateCount, removeCartItem, setProducts, resetValues } = useContext(cartContect);
@@ -36,6 +37,17 @@ export default function Cart() {
         }
       })
       .catch(() => toast.error("Something went wrong. Please try again."));
+  }
+
+  if (products.length === 0) {
+    return (
+      <div className="container mx-auto p-6 bg-white shadow-md rounded-lg">
+        <h1 className="text-2xl font-semibold text-gray-800 mb-3">Shopping Cart</h1>
+        <div className="flex justify-center items-center w-full h-screen">
+          <img src={imageEmptyCart} alt="Empty Cart" className="w-[90%] h-[90%] object-contain" />
+        </div>
+      </div>
+    );
   }
 
   return (

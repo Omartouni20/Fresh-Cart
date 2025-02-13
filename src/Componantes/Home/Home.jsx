@@ -35,7 +35,7 @@ export default function Home() {
       toast.error("Failed to add to Wishlist", { position: "top-right" });
     }
   }
-
+  
   function getAllProducts() {
     return axios.get("https://ecommerce.routemisr.com/api/v1/products");
   }
@@ -54,11 +54,15 @@ export default function Home() {
   }
 
   return (
-    <div className="container mx-auto mt-5">
-      <HomeSlider />
-      <CategoriesSlider />
-
-      <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-5 mb-9">
+    <div className="container mx-auto px-4 md:px-8 lg:px-16 mt-5">
+      <div className="rounded-lg overflow-hidden shadow-lg">
+        <HomeSlider />
+      </div>
+      <div className="mt-6">
+        <CategoriesSlider />
+      </div>
+  
+      <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-6 mb-9">
         {allProducts?.map((product) => (
           <div
             className="relative p-4 border rounded-lg bg-white shadow-sm transition hover:shadow-md hover:border-green-400 group"
@@ -86,11 +90,11 @@ export default function Home() {
             </Link>
             <button
               onClick={(event) => handleAddtionToWishlist(product._id, event)}
-              className="mt-2 text-gray-400 hover:text-red-500 transition flex items-center  w-full"
+              className="mt-2 text-gray-400 hover:text-red-500 transition flex items-center w-full"
             >
               <AiFillHeart size={24} className={wishlist[product._id] ? "text-red-500" : "text-gray-400"} />
             </button>
-
+  
             <div className="mt-4 flex justify-center h-12">
               <button
                 onClick={() => handleAddtionToCart(product._id)}

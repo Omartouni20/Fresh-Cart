@@ -1,50 +1,67 @@
-import { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
-import { authContext } from '../../context/Authcontext'; 
+import { useContext, useEffect } from 'react';
+import { wishlistContext } from './../../context/wishlistContext';
+import { cartContect } from './../../context/CartContext';
+import { toast } from 'react-hot-toast';
 
 export default function Wishlist() {
-  const { userToken } = useContext(authContext);
-  const [products, setProducts] = useState([]);  
-  const [loading, setLoading] = useState(true);  
+  const { wishlistItems, removeProductFromWishlist, getWishlist } = useContext(wishlistContext);
+  const { addProductToCart, getUserCart } = useContext(cartContect);
 
   useEffect(() => {
-    if (userToken) {
-      fetchProductDetails();  
-    }
-  }, [userToken]);
+    getWishlist();
+  }, []);
 
-
-  async function fetchProductDetails() {
-    try {
-      const wishlistIds = [  
-        "6428ead5dc1175abc65ca0ad", 
-        "6428eb43dc1175abc65ca0b3", 
-        "6428e884dc1175abc65ca096",
-      ];
-      const promises = wishlistIds.map(id => axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`));
-      const responses = await Promise.all(promises);
-      setProducts(responses.map(response => response.data.data)); 
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching product details:', error);
-    }
+  if (!wishlistItems.length) {
+    return <div className="text-center text-gray-500">Your wishlist is empty.</div>;
   }
 
-  if (loading) {
-    return <div>Loading...</div>;  
-  }
+  const handleAddToCart = async (productId) => {
+    const success = await addProductToCart(productId);
+    if (success) {
+      toast.success("تمت إضافة المنتج إلى السلة ✅");
+      getUserCart();
+    } else {
+      toast.error("فشل في إضافة المنتج ❌");
+    }
+  };
 
   return (
-    <div>
-      <h2>Your Wishlist</h2>
-      <div className="product-list">
-        {products.map((product) => (
-          <div key={product._id} className="product-item">
-            <img src={product.image} alt={product.name} className="product-image" />
-            <h3>{product.name}</h3>
-          </div>
-        ))}
-      </div>
+    <div className="container mx-auto p-6 bg-white shadow-md rounded-lg">
+      <h1 className="text-2xl font-semibold text-gray-800 mb-3">Your Wishlist</h1>
+      <table className="min-w-full bg-white">
+        <thead>
+          <tr className="border-b">
+            <th className="px-6 py-3 text-left text-sm font-medium text-gray-600">Product</th>
+            <th className="px-6 py-3 text-left text-sm font-medium text-gray-600">Price</th>
+            <th className="px-6 py-3 text-left text-sm font-medium text-gray-600">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {wishlistItems.map((product) => (
+            <tr key={product._id} className="border-b">
+              <td className="px-6 py-3 flex items-center">
+                <img src={product.imageCover} alt={product.title} className="w-16 h-16 object-cover rounded-md mr-4" />
+                <span className="text-gray-800">{product.title}</span>
+              </td>
+              <td className="px-6 py-3 text-gray-600">{product.price} EGP</td>
+              <td className="px-6 py-3">
+                <button
+                  onClick={() => removeProductFromWishlist(product._id)}
+                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                >
+                  Remove
+                </button>
+                <button
+                  onClick={() => handleAddToCart(product._id)}
+                  className="ml-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                >
+                  Add to Cart
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

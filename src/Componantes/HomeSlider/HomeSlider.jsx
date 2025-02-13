@@ -1,11 +1,11 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css"; 
-import image1 from '../../assets/images/banner-4.jpeg'
+import image1 from '../../assets/images/grocery-banner-2.jpeg'
 import image2 from '../../assets/images/slider-image-2.jpeg'
-import image3 from '../../assets/images/slider-image-3.jpeg'
-import image4 from '../../assets/images/grocery-banner-2.jpeg'
-import image5 from '../../assets/images/slider-image-1.jpeg'
+import image3 from '../../assets/images/grocery-banner.png'
+import image4 from '../../assets/images/blog-img-1.jpeg'
+import image5 from '../../assets/images/blog-img-2.jpeg'
 
 
 
@@ -35,10 +35,7 @@ export default function HomeSlider() {
         <img className="w-full h-72" src={image3} alt="" />
   
       </div>
-        <div >
-        <img className="w-full h-72" src={image4} alt="" />
-  
-      </div>
+
         <div >
         <img className="w-full h-72" src={image5} alt="" />
   
