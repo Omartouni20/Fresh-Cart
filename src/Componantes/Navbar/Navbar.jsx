@@ -65,7 +65,7 @@ export default function Navbar() {
             </ul>
           )}
 
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-6 mt-4 md:mt-0"> 
+          {/*<div className="flex flex-col md:flex-row md:items-center md:space-x-6 mt-4 md:mt-0"> 
             <div className="flex justify-center space-x-4 md:space-x-6 items-center">
               {userToken && (
                 <>
@@ -110,7 +110,57 @@ export default function Navbar() {
                 Logout
               </p>
             )}
+          </div>*/}
+          <div className="flex flex-col md:flex-row md:items-center md:space-x-6 mt-4 md:mt-0"> 
+  <div className="flex justify-center space-x-4 md:space-x-6 items-center">
+    {userToken && (
+      <>
+        <Link to='/cart'>
+          <div className="relative flex items-center">
+            <i className="fa-solid fa-cart-shopping text-xl hover:text-blue-700 dark:text-gray-400"></i>
+            <span className="absolute top-[-8px] right-[-8px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              {numberOfCartItems}
+            </span>
           </div>
+        </Link>
+
+        <Link to="/wishlist">
+          <div className="relative text-2xl">
+            {numOfFavoriteItems > 0 ? (
+              <AiFillHeart className="text-red-500" />
+            ) : (
+              <AiOutlineHeart className="text-gray-400" />
+            )}
+            {numOfFavoriteItems > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1">
+                {numOfFavoriteItems}
+              </span>
+            )}
+          </div>
+        </Link>
+      </>
+    )}
+    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+      <FaFacebookF className="text-gray-600 hover:text-blue-600 dark:text-white dark:hover:text-blue-600 text-xl" />
+    </a>
+    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+      <FaTwitter className="text-gray-600 hover:text-blue-600 dark:text-white dark:hover:text-blue-600 text-xl" />
+    </a>
+    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+      <FaInstagram className="text-gray-600 hover:text-pink-600 dark:text-white dark:hover:text-pink-600 text-xl" />
+    </a>
+  </div>
+
+  {userToken && (
+    <p 
+      onClick={handleLogOut} 
+      className="cursor-pointer text-gray-600 dark:text-white text-xl text-center mt-4 md:mt-0 md:ml-4"
+    >
+      Logout
+    </p>
+  )}
+</div>
+
         </div>
       </div>
     </nav>

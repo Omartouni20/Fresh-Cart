@@ -28,7 +28,7 @@ const router = createBrowserRouter(
       path: '', 
       element: <Layout />, 
       children: [
-        { path: '', element: <protectedRoute> <Register /> </protectedRoute> },
+        { path: '', element: <protectedRoute> <Login /> </protectedRoute> },
         { path: 'register', element: <protectedRoute> <Register /> </protectedRoute> },
         { path: 'cart', element: <protectedRoute> <Cart /> </protectedRoute> },
         { path: '/order', element: <protectedRoute> <Order /> </protectedRoute> },
@@ -42,7 +42,7 @@ const router = createBrowserRouter(
         { path: '/reset-code', element: <protectedRoute> <ResetCode /> </protectedRoute> },
         { path: '/reset-password', element: <protectedRoute> <ResetPassword /> </protectedRoute> },
         { path: '/change-password', element: <protectedRoute> <ChangePassword /> </protectedRoute> },
-        { path: 'home', element: <protectedRoute> <Home /> </protectedRoute> },
+        { path: '/home', element: <protectedRoute> <Home /> </protectedRoute> },
         { path: '*', element: <Notfound /> },
         { path: 'productdetails/:id', element: <protectedRoute> <ProductDetails /> </protectedRoute> }
       ] 
