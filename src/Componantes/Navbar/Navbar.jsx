@@ -64,10 +64,11 @@ export default function Navbar() {
               <li><NavLink to="categories" className="text-gray-900 hover:text-blue-700 dark:text-white text-lg font-semibold">Categories</NavLink></li>
             </ul>
           ) : (
-            <div className="flex space-x-4">
-              <Link to="/login" className="text-gray-900 hover:text-blue-700 dark:text-white text-lg font-semibold">Login</Link>
+              <div className="flex space-x-4 md:space-x-6 flex-col md:flex-row md:items-center mt-4 md:mt-0">
+              <Link to="/login" className="text-gray-900 hover:text-blue-700 dark:text-white text-lg font-semibold mb-2 md:mb-0">Login</Link>
               <Link to="/register" className="text-gray-900 hover:text-blue-700 dark:text-white text-lg font-semibold">Register</Link>
-            </div>
+              </div>
+
           )}
 
           <div className="flex flex-col md:flex-row md:items-center md:space-x-6 mt-4 md:mt-0">
