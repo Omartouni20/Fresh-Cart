@@ -96,7 +96,7 @@ let registerFormik =  useFormik(
 
      
 
-<form className="max-w-md mx-auto p-5" onSubmit={ registerFormik.handleSubmit }>
+<form className="max-w-md mx-auto p-5 h-screen " onSubmit={ registerFormik.handleSubmit }>
   <h1 className="text-center p-4">Login Now!</h1>
 
     {isSuccess ? <div className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-green-400" role="alert">
@@ -144,7 +144,7 @@ let registerFormik =  useFormik(
 
 
 
-  <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+  <button type="submit" className="text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
     
     { !isClicked ? "Submit" :<ThreeDots
   visible={true}

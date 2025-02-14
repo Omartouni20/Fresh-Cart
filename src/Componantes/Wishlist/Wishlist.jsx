@@ -22,16 +22,23 @@ export default function Wishlist() {
   }
 
   if (!wishlistItems.length) {
-    return <div className="text-center text-gray-500">Your wishlist is empty.</div>;
+    return (
+      <div className="flex justify-center items-center h-full text-gray-600 p-6">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold mb-3 mt-11">Your Wishlist is Empty</h2>
+          <p className="text-sm">Start adding products to your wishlist to see them here!</p>
+        </div>
+      </div>
+    );
   }
 
   const handleAddToCart = async (productId) => {
     const success = await addProductToCart(productId);
     if (success) {
-      toast.success("product added successfully ✅");
+      toast.success("Product added to cart successfully ✅");
       getUserCart();
     } else {
-      toast.error("Error adding Product ❌");
+      toast.error("Error adding product ❌");
     }
   };
 
