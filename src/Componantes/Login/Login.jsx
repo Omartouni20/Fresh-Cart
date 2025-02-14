@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import * as yup from 'yup'
 import { ThreeDots } from 'react-loader-spinner';
 import { authContext } from "../../context/Authcontext";
+import { Link } from 'react-router-dom';
+
 
 
 export default function Login() {
@@ -158,8 +160,18 @@ let registerFormik =  useFormik(
   /> }
     
   </button>
+  <p className="text-sm text-gray-600">
+  <Link to="/forget-password" className="text-blue-600 hover:underline">
+    Forgot Password?
+  </Link>
+</p>
 
-
+<p className="text-sm text-gray-600 text-center mt-4">
+  Don't have an account? 
+  <Link to="/register" className="text-blue-600 hover:underline ml-1">
+    Sign Up
+  </Link>
+</p>
 
 </form>
 

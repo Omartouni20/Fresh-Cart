@@ -120,7 +120,7 @@ export default function ResetPassword() {
 
         <button
           type="submit"
-          className="w-full py-2.5 text-center text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 rounded-lg font-medium"
+          className="w-full py-2.5 text-center text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-blue-300 rounded-lg font-medium"
         >
           {isClicked ? (
             <ThreeDots visible={true} height="20" width="40" color="#fff" />

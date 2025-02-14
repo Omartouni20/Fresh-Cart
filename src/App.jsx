@@ -38,7 +38,7 @@ const router = createHashRouter(
         { path: 'login', element: <protectedRoute> <Login /> </protectedRoute> },
         { path: 'products', element: <protectedRoute> <Products /> </protectedRoute> },
         { path: 'brands', element: <protectedRoute> <Brands /> </protectedRoute> },
-        { path: '/forget-password', element: <protectedRoute> <ForgetPassword /> </protectedRoute> },
+        { path: 'forget-password', element: <protectedRoute> <ForgetPassword /> </protectedRoute> },
         { path: '/reset-code', element: <protectedRoute> <ResetCode /> </protectedRoute> },
         { path: '/reset-password', element: <protectedRoute> <ResetPassword /> </protectedRoute> },
         { path: '/change-password', element: <protectedRoute> <ChangePassword /> </protectedRoute> },
