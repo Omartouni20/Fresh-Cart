@@ -1,18 +1,22 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import LoaderScreen from '../LoaderScreen/LoaderScreen';
 
 export default function Categories() {
   const [categories, setCategories] = useState([]); 
   const [subCategories, setSubCategories] = useState([]); 
   const [selectedCategory, setSelectedCategory] = useState(null); 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get('https://ecommerce.routemisr.com/api/v1/categories');
-        console.log('Categories Response:', response.data); 
         setCategories(response.data.data); 
       } catch (error) {
         console.error('Error fetching categories:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchCategories();
@@ -22,12 +26,15 @@ export default function Categories() {
     setSelectedCategory(categoryId); 
     try {
       const response = await axios.get('https://ecommerce.routemisr.com/api/v1/subcategories');
-      console.log('Subcategories Response:', response.data); 
       setSubCategories(response.data.data.filter(subcategory => subcategory.category === categoryId)); 
     } catch (error) {
       console.error('Error fetching subcategories:', error);
     }
   };
+
+  if (isLoading) {
+    return <LoaderScreen />;
+  }
 
   return (
     <div className="container mx-auto p-6">

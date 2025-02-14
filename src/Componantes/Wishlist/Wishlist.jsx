@@ -1,15 +1,25 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { wishlistContext } from './../../context/wishlistContext';
 import { cartContect } from './../../context/CartContext';
 import { toast } from 'react-hot-toast';
+import LoaderScreen from './../LoaderScreen';
 
 export default function Wishlist() {
   const { wishlistItems, removeProductFromWishlist, getWishlist } = useContext(wishlistContext);
   const { addProductToCart, getUserCart } = useContext(cartContect);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getWishlist();
+    const fetchWishlist = async () => {
+      await getWishlist();
+      setLoading(false);
+    };
+    fetchWishlist();
   }, []);
+
+  if (loading) {
+    return <LoaderScreen />;
+  }
 
   if (!wishlistItems.length) {
     return <div className="text-center text-gray-500">Your wishlist is empty.</div>;
