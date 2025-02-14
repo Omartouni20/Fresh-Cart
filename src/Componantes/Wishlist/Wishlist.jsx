@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { wishlistContext } from './../../context/wishlistContext';
 import { cartContect } from './../../context/CartContext';
 import { toast } from 'react-hot-toast';
-import LoaderScreen from './../LoaderScreen';
+import LoaderScreen from './../LodaderScreen/LoaderScreen';
 
 export default function Wishlist() {
   const { wishlistItems, removeProductFromWishlist, getWishlist } = useContext(wishlistContext);

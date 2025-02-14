@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import LoaderScreen from '../LoaderScreen/LoaderScreen';
+import LoaderScreen from './../LodaderScreen/LoaderScreen';
 
 export default function Categories() {
   const [categories, setCategories] = useState([]); 

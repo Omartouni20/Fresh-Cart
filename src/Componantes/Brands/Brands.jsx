@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import LoaderScreen from '../LodaderScreen/LoaderScreen.jsx';
+import LoaderScreen from './../LodaderScreen/LoaderScreen';
 
 export default function Brands() {
   const [brands, setBrands] = useState([]);
